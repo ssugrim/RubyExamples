@@ -13,10 +13,10 @@ require 'logger'
   begin
 	  for x in 1..20
 		  for y in 1..20
-			 xdest = rand(10) + rand(10)
-			 ydest = rand(10) + rand(10)
-			 system("ssh root@node#{x}-#{y} ifconfig exp0 192.168.#{x}.#{y} netmask 255.255.0.0")
-			 system("ssh root@node#{x}-#{y} ping 192.168.#{xdest}.#{ydest}")
+			 xdest = rand(19) + 1
+			 ydest = rand(19) + 1
+			 system("ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@node#{x}-#{y} ifconfig exp0 192.168.#{x}.#{y} netmask 255.255.0.0")
+			 system("ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@node#{x}-#{y} ping 192.168.#{xdest}.#{ydest}")
 		 end
 	 end
   rescue => err
