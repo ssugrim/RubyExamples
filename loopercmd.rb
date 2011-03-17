@@ -21,14 +21,12 @@ sucess = Array.new()
 threads = Array.new()
 
 begin
-	for x in 1..XMAX
-		for y in 1..YMAX
+	Range.new(1,XMAX).map do |x|
+		Range.new(1,YMAX).map do |y|
 			t = Thread.new do
-				tx = x
-				ty = y
-				res = system("ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@node#{tx}-#{ty} #{ARGV[0]} 2> /dev/null")
-				LOG.debug("Results was: #{res} for #{tx},#{ty}")
-				LOCK.synchronize {sucess.push([tx,ty]) if res}
+				res = system("ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@node#{x}-#{y} #{ARGV[0]} 2> /dev/null")
+				LOG.debug("Results was: #{res} for #{x},#{y}")
+				LOCK.synchronize {sucess.push([x,y]) if res}
 			end
 			threads.push(t)
 		 end
