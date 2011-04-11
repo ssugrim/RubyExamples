@@ -4,10 +4,10 @@
 require 'logger'
 require 'thread'
 
-XMAX = 1
-YMAX = 2
+XMAX = 20
+YMAX = 20
 LOG = Logger.new(STDOUT)
-LOG.level = Logger::DEBUG
+LOG.level = Logger::INFO
 
 
 unless ARGV.length == 1
