@@ -24,7 +24,7 @@ begin
 	Range.new(1,XMAX).map do |x|
 		Range.new(1,YMAX).map do |y|
 			t = Thread.new do
-				res = system("scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no #{$ARGV[0]} root@node#{x}-#{y}:#{ARGV[1]} 2> /dev/null")
+				res = system("scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no #{ARGV[0]} root@node#{x}-#{y}:#{ARGV[1]} 2> /dev/null")
 				LOG.debug("Results was: #{res} for #{x},#{y}")
 				LOCK.synchronize {sucess.push([x,y]) if res}
 			end

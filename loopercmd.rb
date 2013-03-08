@@ -21,6 +21,7 @@ end
 LOCK = Mutex.new()
 buffer = Array.new()
 sucess = Array.new()
+failures = Array.new()
 threads = Array.new()
 
 begin
@@ -29,7 +30,8 @@ begin
 			t = Thread.new do
 				res = system("ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@node#{x}-#{y} #{ARGV[4]} 2> /dev/null")
 				LOG.debug("Results was: #{res} for #{x},#{y}")
-				LOCK.synchronize {sucess.push([x,y]) if res}
+#				LOCK.synchronize {sucess.push([x,y]) if res}
+				LOCK.synchronize {res ? sucess.push([x,y]) : failures.push([x,y])}
 			end
 			threads.push(t)
 		 end
@@ -41,6 +43,8 @@ rescue => err
 ensure
 	LOG.info("Sucessfull nodes:[#{sucess.map{|b|"[#{b[0]},#{b[1]}]"}.join(",")}]")
 	LOG.info("Number of sucesses: #{sucess.length}")
+	LOG.info("Failed nodes:[#{failures.map{|b|"[#{b[0]},#{b[1]}]"}.join(",")}]")
+	LOG.info("Number of failures: #{failures.length}")
 
 end
 
