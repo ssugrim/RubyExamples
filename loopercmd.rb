@@ -1,4 +1,4 @@
-#!/usr/bin/ruby1.8 -w
+#!/usr/bin/ruby -w
 # Logger Example
 
 require 'logger'
@@ -10,7 +10,7 @@ XMAX = ARGV[2].to_i
 YMAX = ARGV[3].to_i
 
 LOG = Logger.new(STDOUT)
-LOG.level = Logger::INFO
+LOG.level = Logger::DEBUG
 
 
 unless ARGV.length == 5
@@ -41,9 +41,9 @@ rescue => err
 	LOG.fatal("Caught exception; exiting")
 	LOG.fatal(err)
 ensure
-	LOG.info("Sucessfull nodes:[#{sucess.map{|b|"[#{b[0]},#{b[1]}]"}.join(",")}]")
+	LOG.info("Sucessfull nodes:[#{sucess.sort{|x,y| c = (x[0] <=> y[0]); c.zero? ? x[1] <=> y[1] : c }.map{|b|"[#{b[0]},#{b[1]}]"}.join("\n")}]")
 	LOG.info("Number of sucesses: #{sucess.length}")
-	LOG.info("Failed nodes:[#{failures.map{|b|"[#{b[0]},#{b[1]}]"}.join(",")}]")
+#	LOG.info("Failed nodes:[#{failures.map{|b|"[#{b[0]},#{b[1]}]"}.join(",")}]")
 	LOG.info("Number of failures: #{failures.length}")
 
 end
